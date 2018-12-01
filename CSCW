@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="res/style.css">
+    </head>
+<body>
+<div id='map'></div>
+<div id='features'>
+    <section id='welcome' class='active'>
+        <h3>Olá CSCW!!!Eu sou Mariane Teixeira e matrícula:0050012856</h3>
+        <p><img src="res/mari.jpg" height="300"><br/>Bem-vindo aos meus mapas. Conheça um lugar que gostei de conhecer e outras 2 sugestões de amigos.</p>
+    </section>
+    <section id='Meu1' class='active'>
+        <p class="timepoint">Agosto de 2015</p>
+        <h3>Ginásio Poliesportivo da PL</h3>
+        <p><img src="res/meu.jpg" width="350"><br/>Para quem curte esportes, esse é um ginásio recém construído da Instituição Religiosa Perfect Liberty. Com sua estrutura magnifica é palco de campeonatos de jui-jitso e onde o a seleção brasileira de handbol treinou para as olimpídas do Rio.</p>
+    </section>
+    <section id='Moises'>
+        <p class="timepoint">Dica do Moises - Setembro 2010</p>
+        <h3>Plitvice Lakes</h3>
+        <p><img src="res/Plitvice.jpg" width="350"/><br/>Parque na Croácia, com lagos e quedas d'água estoteantes. Durante o inverno todos os lagos congelam e o cenário se torna inacreditavelmente diferente..</p>
+    </section>
+    <section id='Luiz'>
+        <p class="timepoint">Dica do Luiz Cesar - Fevereiro 2017</p>
+        <h3>Paraty - RJ</h3>
+        <p><img src="res/paraty.jpg" width="350" /><br/>Paraty é um município do estado do Rio de Janeiro, no Brasil. Localizado no litoral sul do estado, dista 258 quilômetros da capital estadual, a cidade do Rio de Janeiro.</p>
+    </section>
+    <section id='Rafaela'>
+        <p class="timepoint">Dica da Rafaela - Setembro 2010</p>
+        <h3>MAC</h3>
+        <p><img src="res/MAC.png" width="350" /><br/>Museu de arte contemporânea localizado no Ingá/Niterói.</p>
+    </section>
+    <section id='Patrick'>
+        <p class="timepoint">Dica da Patrick - Setembro 2014</p>
+        <h3>Pipa</h3>
+        <p><img src="res/pipa.jpeg" width="350" /><br/>Praia da Pipa localizada no Tibau do Sul/Rio Grande do Norte.</p>
+    </section>
+</div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleC1zYWxnYWRvIiwiYSI6ImNqbnc2OHdreTAwMXcza3B0bzdvOGZhZWEifQ.GAqMlYzetVlP7lb8eW7zUw';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v10',
+        bearing: 0,
+        center: [-43.106577,-22.896528],
+        zoom: 17,
+        speed: 0.8,
+        pitch: 0
+});
+var chapters = {
+    'welcome': {
+        bearing: 0,
+        center: [-43.106577,-22.896528],
+        zoom: 17,
+        speed: 0.8,
+        pitch: 0
+    },
+    'Meu1': { //Meu1
+        bearing: 0,
+        center: [-46.358625,-23.362960],
+        zoom: 19,
+        pitch: 54.00
+    },
+    'Moises': { //Amigo 1
+        center: [15.623420, 44.882080],
+        bearing: 1.60,
+        zoom: 17.89,
+        speed: 0.6,
+        pitch: 59.00
+    },
+    'Luiz': { //Amigo 2
+        bearing: 1.00,
+        center: [-44.711341, -23.220307],
+        zoom: 18,
+        speed: 0.6,
+        pitch: 60
+    },
+    'Rafaela': { //Amigo 3
+        bearing: 1.00,
+        center: [-43.125835, -22.907549],
+        zoom: 18,
+        speed: 0.6,
+        pitch: 60
+    },
+    'Patrick': { //Amigo 4 
+        bearing: 1.00,
+        center: [-35.050535, -6.227651],
+        zoom: 18,
+        speed: 0.6,
+        pitch: 60
+    },
+    'Ending': {
+        bearing: -0,
+        center: [21.563888, 51.315174],
+        zoom: 4,
+        speed: 0.8,
+        pitch: 24.00
+    },
+};
+// On every scroll event, check which element is on screen
+window.onscroll = function() {
+    var chapterNames = Object.keys(chapters);
+    for (var i = 0; i < chapterNames.length; i++) {
+        var chapterName = chapterNames[i];
+        if (isElementOnScreen(chapterName)) {
+            setActiveChapter(chapterName);
+            break;
+        }
+    }
+};
+var activeChapterName = '';
+function setActiveChapter(chapterName) {
+    if (chapterName === activeChapterName) return;
+    map.flyTo(chapters[chapterName]);
+    document.getElementById(chapterName).setAttribute('class', 'active');
+    document.getElementById(activeChapterName).setAttribute('class', '');
+    activeChapterName = chapterName;
+}
+function isElementOnScreen(id) {
+    var element = document.getElementById(id);
+    var bounds = element.getBoundingClientRect();
+    return bounds.top < window.innerHeight && bounds.bottom > 0;
+}
+</script>
+</body>
+</html>
